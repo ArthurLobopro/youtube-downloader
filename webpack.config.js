@@ -74,14 +74,14 @@ const config = (env, argv) => {
         {
             ...common,
             entry: {
-                renderer: path.resolve(__dirname, "src/renderer/renderer.ts"),
+                renderer: path.resolve(__dirname, "src/renderer/index.tsx"),
                 main: path.resolve(__dirname, "src/main/main.ts"),
             },
             output: {
                 path: path.resolve(__dirname, "dist"),
                 filename: "[name]/[name].js",
             },
-            module: { rules: [tsRule] },
+            module: reactModule,
             externals: {
                 electron: "commonjs electron"
             },

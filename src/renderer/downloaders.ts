@@ -10,12 +10,13 @@ function formatTitle(title: string) {
 }
 
 export function downloadMP4(info: ytdl.videoInfo, path_to_save: string) {
-    const stream = fs.createWriteStream(path.resolve(path_to_save, `${formatTitle(info.videoDetails.title)}.mp4`))
+    const videoPath = path.resolve(path_to_save, `${formatTitle(info.videoDetails.title)}.mp4`)
 
-    const donwloader = ytdl(info.videoDetails.video_url, { quality: "highest" })
-    donwloader.on("progress", (...args) => console.log(args))
+    const stream = fs.createWriteStream(videoPath)
 
-    donwloader.pipe(stream, { end: true })
+    const donwloader = ytdl.downloadFromInfo(info, { quality: "highestvideo" })
+
+    donwloader.pipe(stream, { end: true }).on("progress", (...args) => console.log(args))
 }
 
 export function downloadMP3(info: ytdl.videoInfo, path_to_save: string) {
@@ -23,7 +24,7 @@ export function downloadMP3(info: ytdl.videoInfo, path_to_save: string) {
     const videoPath = path.resolve(tmpdir(), `${randomUUID()}.mp4`)
     const stream = fs.createWriteStream(videoPath)
 
-    const donwloader = ytdl(info.videoDetails.video_url, { quality: "highestaudio" })
+    const donwloader = ytdl.downloadFromInfo(info, { quality: "highestaudio" })
 
     donwloader.pipe(stream).on("finish", () => {
         // const process = new ffmpeg(videoPath)
@@ -55,4 +56,23 @@ export function downloadMP3(info: ytdl.videoInfo, path_to_save: string) {
             })
             .writeToStream(stream, { end: true })
     })
+}
+
+export async function validateAndDownload(
+    url: string, savePath: string, format: "mp3" | "mp4"
+) {
+    try {
+        const info = await ytdl.getInfo(url)
+        console.log(info)
+        if (format === "mp4") {
+            downloadMP4(info, savePath)
+        }
+
+        if (format === "mp3") {
+            downloadMP3(info, savePath)
+        }
+    } catch (error) {
+        alert("A url informada é inválida")
+        console.log(error)
+    }
 }

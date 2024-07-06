@@ -6,7 +6,32 @@
 
 body{
     min-height: 100vh;
-    display: grid;
-    place-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+#root{
+    display: flex;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.gap {
+    gap: 8px;
+}
+
+.min-width {
+    width: max-content;
+}
+
+.p {
+    padding: 4px;
+}
