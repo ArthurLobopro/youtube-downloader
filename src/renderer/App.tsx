@@ -1,6 +1,9 @@
+import ytdl from "@distube/ytdl-core"
 import { ipcRenderer } from "electron"
+import { existsSync } from "fs"
 import { useEffect, useState } from "react"
-import ytdl from "ytdl-core"
+import { Button } from "./compontens/Button"
+import { Input } from "./compontens/Input"
 import { validateAndDownload } from "./downloaders"
 
 type saveFormat = "mp3" | "mp4"
@@ -25,40 +28,54 @@ export function App() {
     }, [url])
 
     function onDownload() {
+        console.log(url)
+
         validateAndDownload(url, savePath, saveFormat)
     }
 
+    function selectFolder() {
+        const folder = ipcRenderer.sendSync("request-download-path")
+
+        if (existsSync(folder)) {
+            setSavePath(folder)
+        }
+    }
+
     return (
-        <div className="flex-column gap">
+        <div className="flex flex-col gap-1 w-full justify-center items-center ">
 
             {info && (
                 <img src={info.videoDetails.thumbnails.at(-1)?.url} width="80%" />
             )}
 
-            <label className="flex gap">
-                URL do vídeo:
-                <input
-                    type="url"
-                    value={url}
-                    onChange={ev => setUrl(ev.currentTarget.value)}
-                />
-            </label>
+            <div className="flex flex-col justify-start gap-1">
+                <label className="flex gap-1">
+                    URL do vídeo:
+                    <Input
+                        type="url"
+                        value={url}
+                        onChange={ev => setUrl(ev.currentTarget.value)}
+                    />
+                </label>
 
-            <label className="flex gap">
-                Salvar como:
-                <select value={saveFormat} onChange={ev => setSaveFormat(ev.currentTarget.value as saveFormat)}>
-                    <option value="mp3">MP3</option>
-                    <option value="mp4">MP4</option>
-                </select>
-            </label>
+                <label className="flex gap-1">
+                    Salvar como:
+                    <select value={saveFormat} onChange={ev => setSaveFormat(ev.currentTarget.value as saveFormat)}>
+                        <option value="mp3">MP3</option>
+                        <option value="mp4">MP4</option>
+                    </select>
+                </label>
 
-            <label className="flex gap">
-                Salvar em: <br />
-                <input type="text" id="path-to-save" readOnly value={savePath} />
-                <button>Escolher</button>
-            </label>
+                <label className="flex gap-1">
+                    Salvar em
+                    <Input type="text" id="path-to-save" readOnly value={savePath} />
+                    <Button onClick={selectFolder}>Escolher</Button>
+                </label>
 
-            <button className="min-width p" onClick={onDownload}>Baixar</button>
+                <div className="flex justify-center">
+                    <Button onClick={onDownload}>Baixar</Button>
+                </div>
+            </div>
         </div>
     )
 }
