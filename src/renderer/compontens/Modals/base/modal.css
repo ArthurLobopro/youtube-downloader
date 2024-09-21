@@ -1,0 +1,136 @@
+.modal-wrapper {
+  background-color: transparent;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &::backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  >.modal {
+    width: auto;
+    height: max-content;
+    min-width: 400px;
+    max-height: 100%;
+    max-width: 80vw;
+
+    margin: auto;
+    border-radius: 16px;
+
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: max-content 1fr max-content;
+    align-items: center;
+
+    user-select: none;
+    font-family: "Poppins", sans-serif;
+
+    & .modal-header {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      font-size: 16px;
+      line-height: 24px;
+      padding: 8px;
+      width: 100%;
+
+      justify-content: space-between;
+    }
+
+    & .modal-body {
+      text-align: left;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      border: solid var(--main-color);
+      border-width: 1px 0;
+      padding: 20px 14px;
+      flex-shrink: 1;
+      white-space: break-spaces;
+
+      p {
+        margin-bottom: 8px;
+      }
+    }
+
+    & .icon-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      height: 100%;
+
+      >svg {
+        min-width: 32px;
+        max-width: 40px;
+        height: 100%;
+        width: 100%;
+
+        aspect-ratio: 1/1;
+      }
+    }
+
+    & .modal-footer {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+      width: 100%;
+      padding: 12px 8px;
+      gap: 20px;
+
+      &:has(>button:only-child) {
+        justify-content: center;
+      }
+
+      &>button {
+        border-radius: 6px;
+        font-size: 12px;
+
+        &.cancel:not(.stroke) {
+          background-color: var(--red);
+          border-color: var(--red);
+        }
+
+        &.disabled,
+        &:disabled {
+          opacity: 0.5 !important;
+        }
+
+        &:not(.disabled, :disabled) {
+          &.close:hover {
+            filter: brightness(1.1);
+            transition: background 200ms;
+          }
+        }
+      }
+    }
+
+    &>ul {
+      padding-left: 20px;
+    }
+
+    &:is(form) {
+      & label {
+        display: flex;
+        align-items: center;
+
+        gap: 8px;
+
+        &>input[type="checkbox"] {
+          height: 16px;
+          width: 16px;
+          border-radius: 4px;
+
+          margin: 0 5px 0 0;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
