@@ -1,16 +1,21 @@
+import { is } from "@electron-toolkit/utils"
 import { app, BrowserWindow, ipcMain } from 'electron'
-import { resolve } from 'path'
+import { join } from "path"
 
 function createWindow() {
     const win = new BrowserWindow({
         autoHideMenuBar: true,
         webPreferences: {
             nodeIntegration: true,
-            preload: resolve(__dirname, "../renderer/renderer.js")
+            preload: join(__dirname, "../preload/index.js"),
         }
     })
 
-    win.loadFile('index.html')
+    if (is.dev && process.env.ELECTRON_RENDERER_URL) {
+        win.loadURL(process.env.ELECTRON_RENDERER_URL)
+    } else {
+        win.loadFile(join(__dirname, "../renderer/index.html"))
+    }
 }
 
 app.whenReady().then(createWindow)

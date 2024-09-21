@@ -1,12 +1,12 @@
-import ytdl from "@distube/ytdl-core"
-import { ipcRenderer } from "electron"
-import { existsSync } from "fs"
+
+import { Button } from "@components/Button"
+import { Input } from "@components/Input"
 import { useEffect, useState } from "react"
-import { Button } from "./compontens/Button"
-import { Input } from "./compontens/Input"
-import { DownloadSucessModal } from "./compontens/Modals/DownloadSucessModal"
-import { validateAndDownload } from "./downloaders"
 import { useModal } from "./hooks/useModal"
+
+import "../output.css"
+import { api } from "./api"
+import { DownloadSucessModal } from "./components/Modals/DownloadSucessModal"
 
 type saveFormat = "mp3" | "mp4"
 
@@ -14,28 +14,30 @@ export function App() {
     const [savePath, setSavePath] = useState("")
     const [url, setUrl] = useState("")
     const [saveFormat, setSaveFormat] = useState<saveFormat>("mp3")
-    const [info, setInfo] = useState<ytdl.videoInfo | null>(null)
+    const [info, setInfo] = useState<Awaited<ReturnType<typeof api.ytdl.getInfo>> | null>(null)
     const [loadState, setLoadState] = useState<"loaded" | "loading">("loaded")
 
     const modal = useModal()
 
     useEffect(() => {
         try {
-            setSavePath(ipcRenderer.sendSync("request-download-path"))
+            setSavePath(window.electron.ipcRenderer.sendSync("request-download-path"))
         } catch (error) { }
     }, [])
 
 
     useEffect(() => {
         if (url) {
-            ytdl.getInfo(url).then(setInfo)
+            setLoadState("loading")
+            api.ytdl.getInfo(url).then(setInfo)
+            setLoadState("loaded")
         }
     }, [url])
 
     async function onDownload() {
         setLoadState("loading")
 
-        const result = await validateAndDownload(url, savePath, saveFormat)
+        const result = await window.api.validateAndDownload(url, savePath, saveFormat)
 
         setLoadState("loaded")
 
@@ -45,9 +47,9 @@ export function App() {
     }
 
     function selectFolder() {
-        const folder = ipcRenderer.sendSync("request-download-path")
+        const folder = window.electron.ipcRenderer.sendSync("request-download-path")
 
-        if (existsSync(folder)) {
+        if (api.existsSync(folder)) {
             setSavePath(folder)
         }
     }
