@@ -7,6 +7,7 @@ import { useModal } from "./hooks/useModal"
 import "../output.css"
 import { api } from "./api"
 import { DownloadSucessModal } from "./components/Modals/DownloadSucessModal"
+import { Modal, ModalBody, ModalFooter, ModalHeader, ModalWrapper, OkButton } from "./components/Modals/base"
 
 type saveFormat = "mp3" | "mp4"
 
@@ -21,16 +22,42 @@ export function App() {
 
     useEffect(() => {
         try {
-            setSavePath(window.electron.ipcRenderer.sendSync("request-download-path"))
+            api.requestDownloadPath().then(path => {
+                path && setSavePath(path)
+            })
+
         } catch (error) { }
     }, [])
-
 
     useEffect(() => {
         if (url) {
             setLoadState("loading")
-            api.ytdl.getInfo(url).then(setInfo)
-            setLoadState("loaded")
+            api.ytdl.getInfo(url)
+                .then(setInfo)
+                .then(() => {
+                    setLoadState("loaded")
+                })
+                .catch(err => {
+                    modal.open(
+                        <ModalWrapper>
+                            <Modal onClose={() => {
+                                setUrl("")
+                                setLoadState("loaded")
+                                modal.close()
+                            }} type="alert">
+                                <ModalHeader title="Erro ao acessar link" closeIcon />
+                                <ModalBody>
+                                    Verifique se o link está correto e tente novamente
+                                </ModalBody>
+                                <ModalFooter>
+                                    <OkButton />
+                                </ModalFooter>
+                            </Modal>
+                        </ModalWrapper>
+                    )
+                })
+        } else {
+            setInfo(null)
         }
     }, [url])
 
@@ -46,10 +73,10 @@ export function App() {
         }
     }
 
-    function selectFolder() {
-        const folder = window.electron.ipcRenderer.sendSync("request-download-path")
+    async function selectFolder() {
+        const folder = await api.requestSavePath()
 
-        if (api.existsSync(folder)) {
+        if (folder) {
             setSavePath(folder)
         }
     }
@@ -65,11 +92,11 @@ export function App() {
             )}
 
             {info && (
-                <img src={info.videoDetails.thumbnails.at(-1)?.url} width="80%" />
+                <img src={info.videoDetails.thumbnails.at(-1)?.url} width="70%" />
             )}
 
             <div className="flex flex-col justify-start gap-1">
-                <label className="flex gap-1">
+                <label className="flex gap-1 items-center">
                     URL do vídeo:
                     <Input
                         type="url"
@@ -86,9 +113,9 @@ export function App() {
                     </select>
                 </label>
 
-                <label className="flex gap-1">
+                <label className="flex gap-1 items-center">
                     Salvar em
-                    <Input type="text" id="path-to-save" readOnly value={savePath} />
+                    <Input type="text" id="path-to-save" disabled value={savePath} />
                     <Button onClick={selectFolder}>Escolher</Button>
                 </label>
 

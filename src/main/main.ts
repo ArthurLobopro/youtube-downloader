@@ -1,6 +1,8 @@
 import { is } from "@electron-toolkit/utils"
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow } from 'electron'
 import { join } from "path"
+
+import "./events"
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -30,8 +32,4 @@ app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
         createWindow()
     }
-})
-
-ipcMain.on("request-download-path", event => {
-    event.returnValue = app.getPath("downloads")
 })
