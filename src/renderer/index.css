@@ -6,13 +6,50 @@
     outline: none;
 }
 
-body{
+:root {
+    --scrollbar-background: rgba(0, 0, 0, 0.205);
+    --scrollbar-thumb: #999;
+    --scrollbar-thumb-hover: #777;
+    --scrollbar-thumb-active: #555;
+
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --accent: 240 4.8% 85.9%;
+    --accent-foreground: 240 5.9% 10%;
+
+    --border: 214.3 31.8% 78.4%;
+}
+
+.dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 80%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+}
+
+body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @apply overflow-hidden grid h-screen w-screen bg-background text-foreground;
 }
 
-#root{
+#root {
     display: flex;
+}
+
+svg.follow-colors {
+    * {
+        &[stroke]:not([stroke="none"]) {
+            stroke: currentColor;
+        }
+
+        &[fill]:not([fill="none"]) {
+            fill: currentColor;
+        }
+    }
 }
