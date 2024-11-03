@@ -1,8 +1,12 @@
 import { createRoot } from "react-dom/client"
-import { App } from "./App"
+import { AppRoutes } from "./AppRoutes"
+
+import "../output.css"
 
 window.addEventListener("DOMContentLoaded", () => {
     const root = createRoot(document.querySelector("#root") as HTMLDivElement)
 
-    root.render(<App />)
+    document.body.className = "dark"
+
+    root.render(<AppRoutes />)
 })

@@ -1,18 +1,18 @@
-import { CircleButton } from "@renderer/components/buttons/CircleButton";
-import { CloseIcon } from "@renderer/icons";
-import { useContext } from "react";
-import { ModalContext } from "../../../contexts/ModalContext";
+import { useContext } from "react"
+import { ModalContext } from "../../../contexts/ModalContext"
+import { ReactComponent as CloseIcon } from "../../../icons/svgs/close-icon.svg"
+import { CircleButton } from "../../buttons/CircleButton"
 
 interface GeneralButtonProps {
-  text?: string;
-  autoFocus?: boolean;
+  text?: string
+  autoFocus?: boolean
 }
 
 export function CancelButton({
   text = "Cancelar",
   autoFocus = false,
 }: GeneralButtonProps) {
-  const { onClose } = useContext(ModalContext);
+  const { onClose } = useContext(ModalContext)
 
   return (
     <button
@@ -23,13 +23,13 @@ export function CancelButton({
     >
       {text}
     </button>
-  );
+  )
 }
 
-type OkButtonProps = GeneralButtonProps;
+type OkButtonProps = GeneralButtonProps
 
 export function OkButton({ text = "OK", autoFocus = true }: OkButtonProps) {
-  const { onClose } = useContext(ModalContext);
+  const { onClose } = useContext(ModalContext)
 
   return (
     <button
@@ -40,17 +40,17 @@ export function OkButton({ text = "OK", autoFocus = true }: OkButtonProps) {
     >
       {text}
     </button>
-  );
+  )
 }
 
-type SubmitButtonProps = Omit<GeneralButtonProps, "autoFocus">;
+type SubmitButtonProps = Omit<GeneralButtonProps, "autoFocus">
 
 export function SubmitButton({ text = "Enviar" }: SubmitButtonProps) {
-  return <button type="submit">{text}</button>;
+  return <button type="submit">{text}</button>
 }
 
 export function CloseModalButton() {
-  const { onClose } = useContext(ModalContext);
+  const { onClose } = useContext(ModalContext)
 
   return (
     <CircleButton
@@ -61,5 +61,5 @@ export function CloseModalButton() {
     >
       <CloseIcon className="fill-current stroke-current" />
     </CircleButton>
-  );
+  )
 }
