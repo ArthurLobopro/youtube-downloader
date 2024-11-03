@@ -23,22 +23,10 @@ export function Main() {
             })
             .catch(err => {
                 setIsLoading(false)
-                modal.open(
-                    <ModalWrapper>
-                        <Modal onClose={() => {
-                            setUrl("")
-                            modal.close()
-                        }} type="alert">
-                            <ModalHeader title="Erro ao acessar link" closeIcon />
-                            <ModalBody>
-                                Verifique se o link está correto e tente novamente
-                            </ModalBody>
-                            <ModalFooter>
-                                <OkButton />
-                            </ModalFooter>
-                        </Modal>
-                    </ModalWrapper>
-                )
+                modal.open(<ErrorModal onClose={() => {
+                    setUrl("")
+                    modal.close()
+                }} />)
             })
     }
 
@@ -61,5 +49,21 @@ export function Main() {
                 </button>
             </div>
         </div>
+    )
+}
+
+function ErrorModal(props: { onClose: VoidFunction }) {
+    return (
+        <ModalWrapper>
+            <Modal onClose={props.onClose} type="alert">
+                <ModalHeader title="Erro ao acessar link" closeIcon />
+                <ModalBody>
+                    Verifique se o link está correto e tente novamente
+                </ModalBody>
+                <ModalFooter>
+                    <OkButton />
+                </ModalFooter>
+            </Modal>
+        </ModalWrapper>
     )
 }

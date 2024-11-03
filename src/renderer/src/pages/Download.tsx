@@ -26,14 +26,11 @@ export function DownloadPage() {
 
     console.log(info)
 
-
     useEffect(() => {
         try {
             api.requestDownloadPath().then(path => {
                 path && setSavePath(path)
             })
-
-
         } catch (error) { }
     }, [])
 
@@ -66,10 +63,6 @@ export function DownloadPage() {
             {modal.content}
 
             {loader}
-
-            {/* {info && (
-                <img src={info.videoDetails.thumbnails.at(-1)?.url} width="70%" />
-            )} */}
 
             {info && (
                 <iframe width="70%" className="aspect-video" src={`https://www.youtube-nocookie.com/embed/${info.videoDetails.videoId}`} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
