@@ -31,15 +31,13 @@
 
 body {
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
     @apply overflow-hidden grid h-screen w-screen bg-background text-foreground;
 }
 
 #root {
     display: flex;
+    width: 100%;
 }
 
 svg.follow-colors {
@@ -52,4 +50,12 @@ svg.follow-colors {
             fill: currentColor;
         }
     }
+}
+
+select {
+    @apply bg-background;
+}
+
+option {
+    @apply bg-background;
 }
