@@ -46,6 +46,9 @@ linux:
   maintainer: electronjs.org
   category: Utility
   icon: build/icon.png
+  desktop:
+    Name: Youtube Downloader
+    Comment: Self Hosted Youtube Downloader
 
 appImage:
   artifactName: ${name}-${version}.${ext}

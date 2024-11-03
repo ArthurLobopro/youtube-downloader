@@ -7,6 +7,7 @@
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
     "build": "yarn tailwind && electron-vite build",
+    "build:linux": "yarn build && yarn electron-builder --linux",
     "tailwind": "tailwindcss -i ./src/renderer/index.css -o ./src/renderer/output.css"
   },
   "keywords": [],
@@ -21,7 +22,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react": "^4.3.1",
     "electron": "30",
-    "electron-builder": "^25.0.5",
+    "electron-builder": "^25.1.8",
     "electron-vite": "^2.3.0",
     "tailwindcss": "^3.4.14",
     "typescript": "^5.6.2",

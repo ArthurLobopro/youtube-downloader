@@ -1,6 +1,7 @@
 import { is } from "@electron-toolkit/utils"
 import { app, BrowserWindow } from 'electron'
 import { join } from "path"
+import icon from "../../build/icon.png?asset"
 
 import "./events"
 
@@ -12,6 +13,8 @@ function createWindow() {
             preload: join(__dirname, "../preload/index.js"),
         }
     })
+
+    win.setIcon(icon)
 
     if (is.dev && process.env.ELECTRON_RENDERER_URL) {
         win.loadURL(process.env.ELECTRON_RENDERER_URL)
