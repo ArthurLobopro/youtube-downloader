@@ -21,8 +21,11 @@ export function Main() {
             .then(info => {
                 navigate("/download", { state: { info, url } })
             })
-            .catch(err => {
+            .catch((err) => {
                 setIsLoading(false)
+
+                console.log(err)
+
                 modal.open(<ErrorModal onClose={() => {
                     setUrl("")
                     modal.close()
