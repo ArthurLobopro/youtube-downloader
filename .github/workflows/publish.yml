@@ -1,0 +1,50 @@
+name: Publish
+
+on:
+  workflow_dispatch: 
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    permissions: 
+      contents: write
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "21.x"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build Windows
+        run: yarn build:win
+        if: startsWith(runner.os, 'Windows')
+
+      - name: Build Linux
+        run: yarn build:linux
+        if: startsWith(runner.os, 'Linux')
+            
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+            files: |
+              dist/*.deb
+              dist/*.snap
+              dist/*.exe
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

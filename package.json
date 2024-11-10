@@ -8,6 +8,7 @@
     "dev": "electron-vite dev",
     "build": "yarn tailwind && electron-vite build",
     "build:linux": "yarn build && yarn electron-builder --linux",
+    "build:win": "yarn build && yarn  electron-builder --win",
     "tailwind": "tailwindcss -i ./src/renderer/index.css -o ./src/renderer/output.css"
   },
   "keywords": [],
