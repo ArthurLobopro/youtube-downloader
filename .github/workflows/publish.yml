@@ -31,11 +31,11 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build Windows
-        run: yarn build:win
+        run: yarn build:win -p never
         if: startsWith(runner.os, 'Windows')
 
       - name: Build Linux
-        run: yarn build:linux
+        run: yarn build:linux -p never
         if: startsWith(runner.os, 'Linux')
             
       - name: Release
