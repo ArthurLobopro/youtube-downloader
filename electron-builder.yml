@@ -17,7 +17,7 @@ asarUnpack:
   - build/**
 
 win:
-  executableName: youtube-downloader
+  executableName: YouTube Downloader
   icon: build/icon.png
 
 nsis:

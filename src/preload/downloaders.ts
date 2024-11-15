@@ -5,6 +5,10 @@ import fs from "fs"
 import { tmpdir } from "os"
 import path from "path"
 
+if (process.platform === "win32") {
+    ffmpeg.setFfmpegPath(require("ffmpeg-ffprobe-static"))
+}
+
 function formatTitle(title: string) {
     return title.trim().replace(/\(|\[|\]|\)|\&|\,|@|\//g, "_").replace(/ |:/g, "")
 }
