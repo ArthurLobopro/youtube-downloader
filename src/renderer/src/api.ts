@@ -1,1 +1,1 @@
-export const api = window.api
+export const api = window.api;

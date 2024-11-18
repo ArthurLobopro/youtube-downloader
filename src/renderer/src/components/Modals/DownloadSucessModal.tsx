@@ -1,4 +1,4 @@
-import { api } from "@renderer/api"
+import { api } from "@renderer/api";
 import {
   Modal,
   ModalBody,
@@ -6,11 +6,11 @@ import {
   ModalHeader,
   ModalWrapper,
   OkButton,
-} from "./base"
+} from "./base";
 
 interface DownloadSucessModalProps {
-  onClose: () => void
-  filePath: string
+  onClose: () => void;
+  filePath: string;
 }
 
 export function DownloadSucessModal({
@@ -35,5 +35,5 @@ export function DownloadSucessModal({
         </ModalFooter>
       </Modal>
     </ModalWrapper>
-  )
+  );
 }

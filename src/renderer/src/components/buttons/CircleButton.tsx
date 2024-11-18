@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { forwardRef } from "react"
+import { forwardRef } from "react";
 
 interface CircleButtonProps {
-  onClick: () => void
-  title: string
-  children: React.ReactNode
-  small?: boolean
-  useDiv?: boolean
-  className?: string
+  onClick: () => void;
+  title: string;
+  children: React.ReactNode;
+  small?: boolean;
+  useDiv?: boolean;
+  className?: string;
 }
 
 export const CircleButton = forwardRef(function CircleButton(
@@ -16,7 +16,7 @@ export const CircleButton = forwardRef(function CircleButton(
 ) {
   const Component = props.useDiv
     ? (props: any) => <div {...props} ref={ref} />
-    : (props: any) => <button {...props} ref={ref} />
+    : (props: any) => <button {...props} ref={ref} />;
 
   return (
     <Component
@@ -32,5 +32,5 @@ export const CircleButton = forwardRef(function CircleButton(
     >
       {props.children}
     </Component>
-  )
-})
+  );
+});

@@ -1,50 +1,50 @@
 /* eslint-disable prettier/prettier */
-import { useMemo } from "react"
-import { ModalContext } from "../../../contexts/ModalContext"
+import { useMemo } from "react";
+import { ModalContext } from "../../../contexts/ModalContext";
 
-import "./modal.css"
+import "./modal.css";
 
 type ModalProps = React.PropsWithChildren<
   (
     | {
-      type: "alert"
-      onClose: VoidFunction
-    }
+        type: "alert";
+        onClose: VoidFunction;
+      }
     | {
-      type: "confirm"
-      onClose: (confirm: boolean) => void
-    }
+        type: "confirm";
+        onClose: (confirm: boolean) => void;
+      }
   ) & {
-    shouldClose?: () => Promise<boolean>
-    className?: string
-    id?: string
+    shouldClose?: () => Promise<boolean>;
+    className?: string;
+    id?: string;
   }
->
+>;
 
 export function Modal(props: ModalProps) {
   const handleClose = useMemo(() => {
     return props.type === "alert"
       ? async () => {
-        if (props.shouldClose) {
-          const should_close = await props.shouldClose()
-          if (!should_close) {
-            return
+          if (props.shouldClose) {
+            const should_close = await props.shouldClose();
+            if (!should_close) {
+              return;
+            }
           }
-        }
 
-        props.onClose()
-      }
+          props.onClose();
+        }
       : async (confirm: boolean) => {
-        if (props.shouldClose) {
-          const should_close = await props.shouldClose()
-          if (!should_close) {
-            return
+          if (props.shouldClose) {
+            const should_close = await props.shouldClose();
+            if (!should_close) {
+              return;
+            }
           }
-        }
 
-        props.onClose(confirm)
-      }
-  }, [props.type, props.shouldClose])
+          props.onClose(confirm);
+        };
+  }, [props.type, props.shouldClose]);
 
   return (
     <ModalContext.Provider value={{ onClose: handleClose }}>
@@ -60,5 +60,5 @@ export function Modal(props: ModalProps) {
         {props.children}
       </div>
     </ModalContext.Provider>
-  )
+  );
 }

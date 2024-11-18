@@ -1,39 +1,39 @@
-import ytdl from "@distube/ytdl-core"
-import { ipcRenderer, shell } from "electron"
-import { existsSync } from "fs"
-import { validateAndDownload } from "./downloaders"
+import { existsSync } from "fs";
+import ytdl from "@distube/ytdl-core";
+import { ipcRenderer, shell } from "electron";
+import { validateAndDownload } from "./downloaders";
 
 async function requestDownloadPath() {
-    const folder = ipcRenderer.sendSync("request-download-path")
+    const folder = ipcRenderer.sendSync("request-download-path");
 
-    if (folder === "canceled") return null
+    if (folder === "canceled") return null;
 
     if (folder && existsSync(folder)) {
-        return folder
+        return folder;
     }
 
-    return null
+    return null;
 }
 
 async function requestSavePath() {
-    const folder = ipcRenderer.sendSync("request-save-path")
+    const folder = ipcRenderer.sendSync("request-save-path");
 
-    if (folder === "canceled") return null
+    if (folder === "canceled") return null;
 
     if (folder && existsSync(folder)) {
-        return folder
+        return folder;
     }
 
-    return null
+    return null;
 }
 
 export const api = {
     ytdl: {
-        getInfo: ytdl.getInfo
+        getInfo: ytdl.getInfo,
     },
     validateAndDownload,
     existsSync,
     shell,
     requestDownloadPath,
-    requestSavePath
-}
+    requestSavePath,
+};
