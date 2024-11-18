@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+        {
+            "label": "tailwind: watch",
+            "command": "yarn tailwind --watch",
+            "type": "shell",
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
+        }
+    ]
+}
