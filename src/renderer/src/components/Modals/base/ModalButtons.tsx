@@ -58,6 +58,7 @@ export function CloseModalButton() {
       small
       onClick={onClose.bind(null, false)}
       useDiv={true}
+      className="hover:text-red-500"
     >
       <CloseIcon className="fill-current stroke-current" />
     </CircleButton>
